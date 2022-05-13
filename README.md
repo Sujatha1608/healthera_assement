@@ -20,7 +20,3 @@ This project follows Clean Architecture with MVVM with Clean Architecture Design
 * `domain/` : contains the business logic and the usecases
 * `app` : Presentation layer, contains the UI 
 
-This project contains two screens. First screen contains Get Data Button, 
-If we click on that button navigate to next Activity. 
-In Second Screen calling the public api using retrofit and display the list of
-data in recycler view. The data contains title and body.
