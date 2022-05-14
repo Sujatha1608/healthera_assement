@@ -1,11 +1,16 @@
 package sampleproject.com.my.skeletonApp.rest
 
-import sampleproject.com.my.skeletonApp.rest.model.SampleDataResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
+import sampleproject.com.my.skeletonApp.rest.model.AdherencesResponse
+import sampleproject.com.my.skeletonApp.rest.model.RemediesResponse
 
 interface GeneralService {
 
-    @GET("posts")
-    fun getData(): Single<List<SampleDataResponse>>
+
+    @GET("adherences")
+    fun getAdherences(): Single<AdherencesResponse>
+
+    @GET("remedies")
+    fun getRemedies(): Single<RemediesResponse>
 }

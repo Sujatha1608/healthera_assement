@@ -33,8 +33,7 @@ class NetworkModule {
 
     companion object {
         // API Repository
-//        private const val URL = "https://api.github.com/"
-        private const val URL = "https://jsonplaceholder.typicode.com/"
+        private const val URL = "https://34574e81-855b-4c10-8987-935950fdd23c.mock.pstmn.io/"
 
     }
 
