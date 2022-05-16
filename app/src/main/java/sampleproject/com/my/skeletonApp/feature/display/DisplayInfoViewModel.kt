@@ -8,6 +8,9 @@ import sampleproject.com.my.skeletonApp.core.event.SingleLiveEvent
 import sampleproject.com.my.skeletonApp.rest.model.models.RemedyDataModel
 import sampleproject.com.my.skeletonApp.rest.model.usecase.AdherencesUseCase
 import sampleproject.com.my.skeletonApp.rest.model.usecase.RemediesUseCase
+import sampleproject.com.my.skeletonApp.utilities.ObservableString
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -23,6 +26,9 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
     val list = mutableListOf<RemedyDataModel>()
     lateinit var model: RemedyDataModel
 
+    var displayDate = ObservableString("")
+    val list_date = mutableListOf<String>()
+    val date_Info = MutableLiveData<List<String>>()
     init {
         getAdherence()
         getRemedies()
@@ -41,7 +47,9 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                 onSuccess = {
                     Timber.d { "api $it" }
                     loadingDialogEvent.postValue(false)
-
+                    for(i in it.data!!){
+                        displayDate.set(getDate(i.alarmTime))
+                    }
 
                 },
                 onError = { e ->
@@ -63,7 +71,6 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                         model = RemedyDataModel( id = i.remedyId!!, name = i.medicineName!!)
                         list.add(model)
 
-
                     }
                     resultDetails().value=list
 
@@ -80,6 +87,15 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
     }
     fun onRightClick(){
 
+    }
+    private fun getDate(epoc: Long): String? {
+        try {
+            val sdf = SimpleDateFormat("dd MMMM yyyy")
+            val netDate = Date(epoc*1000)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
+        }
     }
 
 }
