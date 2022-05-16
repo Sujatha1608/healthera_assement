@@ -101,4 +101,5 @@
 
 	<dimen name="default_icon_size">62dp</dimen>
 	<dimen name="text_icon_size">24dp</dimen>
+    <dimen name="space_large_50dp">50dp</dimen>
 </resources>

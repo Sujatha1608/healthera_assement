@@ -10,21 +10,22 @@ import sampleproject.com.my.skeletonApp.R
 import sampleproject.com.my.skeletonApp.databinding.ItemInformationActivityBinding
 import sampleproject.com.my.skeletonApp.rest.model.models.RemedyDataModel
 
-class DataResultAdapter(statusList: List<RemedyDataModel>, private val callbacks: Callbacks? = null) : RecyclerView.Adapter<DataResultAdapter.ViewHolder>() {
-    var items = listOf<RemedyDataModel>()
-
+class DataResultAdapter(
+    var statusList: MutableList<RemedyDataModel>,
+    private val callbacks: Callbacks? = null
+) : RecyclerView.Adapter<DataResultAdapter.ViewHolder>() {
     lateinit var mContext: Context
 
-    init {
-        items = statusList
+    fun setData(list: MutableList<RemedyDataModel>) {
+        statusList.clear()
+        statusList.addAll(list)
+        notifyDataSetChanged()
     }
 
-    fun setData(list: List<RemedyDataModel>) {
-        items = list
-    }
-    interface Callbacks{
+    interface Callbacks {
         fun onItemClick(view: View, item: RemedyDataModel)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         mContext = parent.context
@@ -34,30 +35,28 @@ class DataResultAdapter(statusList: List<RemedyDataModel>, private val callbacks
             parent,
             false
         )
-        return ViewHolder(binding,viewType)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.binding.model = items[position]
-        holder.mapTestStatus(items[position],holder)
+        holder.binding.model = statusList[position]
+        holder.mapTestStatus(statusList[position])
         holder.itemView.visibility = View.VISIBLE
 
     }
+
     override fun getItemCount(): Int {
-        return items.size
+        return statusList.size
     }
 
-    inner class ViewHolder(val binding: ItemInformationActivityBinding,viewType: Int) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemInformationActivityBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun mapTestStatus(statusModel: RemedyDataModel, holder: ViewHolder): RemedyDataModel {
+        fun mapTestStatus(statusModel: RemedyDataModel): RemedyDataModel {
             return statusModel
         }
-
     }
-
-
-
 }
 
 

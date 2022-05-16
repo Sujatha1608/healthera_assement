@@ -1,66 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".feature.display.DisplayInfoActivity">
-    <data>
-        <variable name="viewModel" type="sampleproject.com.my.skeletonApp.feature.display.DisplayInfoViewModel"/>
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature.display.DisplayInfoActivity">
 
-    <LinearLayout
+    <data>
+
+        <import type="android.app.Activity" />
+
+        <variable
+            name="viewModel"
+            type="sampleproject.com.my.skeletonApp.feature.display.DisplayInfoViewModel" />
+    </data>
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/large_text_24sp"
-        android:background="@color/grey_light"
-        android:orientation="vertical">
-        <LinearLayout
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/large_text_24sp"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/space_medium_16dp"
-            android:weightSum="4">
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
-                android:id="@+id/iv_calendar_previous"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:onClick="@{()-> viewModel.onLeftClick()}"
                 android:layout_marginStart="@dimen/space_small_10dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{(view)->((Activity)(view.getContext())).finish()}"
+                android:src="@drawable/material_icons_white_x"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/BaseTextView.OpenSansBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schedule"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text_16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/previous_next_layout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBar">
+
+            <ImageView
+                android:id="@+id/iv_previous_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_small_10dp"
+                android:contentDescription="@string/app_name"
+                android:gravity="center"
+                android:visibility="gone"
                 android:src="@drawable/ic_previous"
-                android:layout_weight="0.5"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/tv_date_month"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:textSize="@dimen/medium_text_16sp"
                 android:text="@{viewModel.displayDate}"
-                tools:text="20 December 2022" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
-                android:id="@+id/iv_calendar_next"
+                android:id="@+id/iv_next_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
                 android:gravity="center"
-                android:onClick="@{()-> viewModel.onRightClick()}"
                 android:layout_marginEnd="@dimen/space_small_10dp"
                 android:src="@drawable/ic_next"
-                />
-        </LinearLayout>
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/sun_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:gravity="center"
+            android:layout_margin="@dimen/space_small_10dp"
+            android:src="@drawable/sun_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/previous_next_layout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sun_image"
             android:layout_margin="@dimen/space_small_10dp"
-            tools:listitem="@layout/item_information_activity"
-
-            />
-    </LinearLayout>
+            tools:listitem="@layout/item_information_activity" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
 </layout>

@@ -41,6 +41,7 @@
 
     <string name="loading">Loading…</string>
     <string name="scheduled">Scheduled</string>
+    <string name="schedule">Schedule</string>
 
 
 </resources>

@@ -2,17 +2,14 @@ package sampleproject.com.my.skeletonApp.rest.model.models
 
 
 data class RemedyDataModel(
-    val id: String,
-
-    val dateCreated: String = "",
-
+    val id: String? = null,
+    val dateCreated: Long,
     val isOnGoing: Boolean = false,
-
-    val name: String = "",
-
-    val dateStart: String = "",
-
-    val dateEnd: String = "",
-
-    val desc: String? = null
+    val name: String? = null,
+    val dateStart: Long,
+    val dateEnd: Long,
+    val desc: String? = null,
+    val dateCreatedStr: String? = null,
+    val dateStartStr: String? = null,
+    val alarmDate: String? = null
 )

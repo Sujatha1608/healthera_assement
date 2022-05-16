@@ -17,29 +17,35 @@ import javax.inject.Inject
 class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: AdherencesUseCase, private val remediesUseCase: RemediesUseCase): ViewModel() {
 
 
-
     lateinit var callBack: ViewModelCallBack
     val errorEvent = MutableLiveData<String>()
     val loadingDialogEvent = SingleLiveEvent<Boolean>()
 
     var dataResultInfo = MutableLiveData<List<RemedyDataModel>>()
-    val list = mutableListOf<RemedyDataModel>()
-    lateinit var model: RemedyDataModel
-
+    var adherenceListLiveData = MutableLiveData<MutableSet<String?>>()
+    val datesList: MutableSet<String?> = HashSet()
+    val displayListData: MutableMap<String, MutableList<RemedyDataModel>> = HashMap()
+    val remediesList: MutableList<RemedyDataModel> = ArrayList()
     var displayDate = ObservableString("")
-    val list_date = mutableListOf<String>()
-    val date_Info = MutableLiveData<List<String>>()
+
     init {
         getAdherence()
         getRemedies()
     }
+
     interface ViewModelCallBack {
         fun updateRecyclerView(update: Boolean)
 
     }
-    fun resultDetails():MutableLiveData<List<RemedyDataModel>>{
+
+    fun resultDetails(): MutableLiveData<List<RemedyDataModel>> {
         return dataResultInfo
     }
+
+    fun adherenceDetails(): MutableLiveData<MutableSet<String?>> {
+        return adherenceListLiveData
+    }
+
     private fun getAdherence() {
         loadingDialogEvent.postValue(true)
         adherencesUseCase.execute()
@@ -47,10 +53,10 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                 onSuccess = {
                     Timber.d { "api $it" }
                     loadingDialogEvent.postValue(false)
-                    for(i in it.data!!){
-                        displayDate.set(getDate(i.alarmTime))
+                    for (i in it.data!!) {
+                        datesList.add(i.patientId)
                     }
-
+                    adherenceListLiveData.value = datesList
                 },
                 onError = { e ->
                     errorEvent.postValue(e.message.toString())
@@ -66,14 +72,23 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                 onSuccess = {
                     Timber.d { "api $it" }
                     loadingDialogEvent.postValue(false)
-                    list.clear()
+                    remediesList.clear()
                     for (i in it.data!!) {
-                        model = RemedyDataModel( id = i.remedyId!!, name = i.medicineName!!)
-                        list.add(model)
-
+                        val model = RemedyDataModel(
+                            id = i.patientId,
+                            i.dateCreated,
+                            false,
+                            i.medicineName,
+                            i.startDate,
+                            i.endDate,
+                            getDate(i.dateCreated),
+                            getDate(i.startDate),
+                            getDate(i.endDate),
+                            getTime(i.dateCreated)
+                        )
+                        remediesList.add(model)
                     }
-                    resultDetails().value=list
-
+                    resultDetails().value = remediesList
                 },
                 onError = { e ->
                     errorEvent.postValue(e.message.toString())
@@ -82,20 +97,26 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                 }
             )
     }
-    fun onLeftClick(){
 
-    }
-    fun onRightClick(){
-
-    }
-    private fun getDate(epoc: Long): String? {
-        try {
+    private fun getDate(epoc: Long): String {
+        return try {
             val sdf = SimpleDateFormat("dd MMMM yyyy")
-            val netDate = Date(epoc*1000)
-            return sdf.format(netDate)
+            val netDate = Date(epoc * 1000)
+            sdf.format(netDate)
         } catch (e: Exception) {
-            return e.toString()
+            e.toString()
+            ""
         }
     }
 
+    private fun getTime(epoc: Long): String {
+        return try {
+            val sdf = SimpleDateFormat("hh:mm a")
+            val netDate = Date(epoc * 1000)
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
+            ""
+        }
+    }
 }
