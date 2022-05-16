@@ -35,6 +35,9 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
 
     interface ViewModelCallBack {
         fun updateRecyclerView(update: Boolean)
+        fun onLeftClick()
+        fun onRightClick()
+        fun closeClick()
 
     }
 
@@ -119,4 +122,14 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
             ""
         }
     }
+    fun onPreviousClick(){
+        callBack.onLeftClick()
+    }
+    fun onNextClick(){
+        callBack.onRightClick()
+    }
+    fun onCloseClick(){
+        callBack.closeClick()
+    }
+
 }

@@ -45,6 +45,18 @@ class DisplayInfoActivity : BaseActivity(), DataResultAdapter.Callbacks {
             override fun updateRecyclerView(update: Boolean) {
                 mAdapter.notifyDataSetChanged()
             }
+
+            override fun onLeftClick() {
+               previousSelected()
+            }
+
+            override fun onRightClick() {
+                nextSelected()
+            }
+
+            override fun closeClick() {
+               finish()
+            }
         }
 
         viewModel.errorEvent.observe(this) {
@@ -79,12 +91,12 @@ class DisplayInfoActivity : BaseActivity(), DataResultAdapter.Callbacks {
         mAdapter = DataResultAdapter(ArrayList(), this)
         recyclerView.adapter = mAdapter
 
-        binding.ivPreviousImage.setOnClickListener {
+      /*  binding.ivPreviousImage.setOnClickListener {
             previousSelected()
         }
         binding.ivNextImage.setOnClickListener {
             nextSelected()
-        }
+        }*/
     }
 
     private fun nextSelected() {
