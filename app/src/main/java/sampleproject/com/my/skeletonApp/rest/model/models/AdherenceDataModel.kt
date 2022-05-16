@@ -1,4 +1,4 @@
-package co.uk.healthera.healthera.domain.model
+package sampleproject.com.my.skeletonApp.rest.model.models
 
 
 data class AdherenceDataModel(

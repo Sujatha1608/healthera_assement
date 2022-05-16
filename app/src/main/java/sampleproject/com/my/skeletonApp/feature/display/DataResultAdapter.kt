@@ -8,9 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import sampleproject.com.my.skeletonApp.R
 import sampleproject.com.my.skeletonApp.databinding.ItemInformationActivityBinding
+import sampleproject.com.my.skeletonApp.rest.model.models.RemedyDataModel
 
-class DataResultAdapter(statusList: List<DataResultResponse>, private val callbacks: Callbacks? = null) : RecyclerView.Adapter<DataResultAdapter.ViewHolder>() {
-    var items = listOf<DataResultResponse>()
+class DataResultAdapter(statusList: List<RemedyDataModel>, private val callbacks: Callbacks? = null) : RecyclerView.Adapter<DataResultAdapter.ViewHolder>() {
+    var items = listOf<RemedyDataModel>()
 
     lateinit var mContext: Context
 
@@ -18,11 +19,11 @@ class DataResultAdapter(statusList: List<DataResultResponse>, private val callba
         items = statusList
     }
 
-    fun setData(list: List<DataResultResponse>) {
+    fun setData(list: List<RemedyDataModel>) {
         items = list
     }
     interface Callbacks{
-        fun onItemClick(view: View, item: DataResultResponse)
+        fun onItemClick(view: View, item: RemedyDataModel)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -49,7 +50,7 @@ class DataResultAdapter(statusList: List<DataResultResponse>, private val callba
 
     inner class ViewHolder(val binding: ItemInformationActivityBinding,viewType: Int) : RecyclerView.ViewHolder(binding.root) {
 
-        fun mapTestStatus(statusModel: DataResultResponse, holder: ViewHolder): DataResultResponse {
+        fun mapTestStatus(statusModel: RemedyDataModel, holder: ViewHolder): RemedyDataModel {
             return statusModel
         }
 

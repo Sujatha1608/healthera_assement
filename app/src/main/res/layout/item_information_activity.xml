@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="sampleproject.com.my.skeletonApp.feature.display.DataResultResponse" />
+            type="sampleproject.com.my.skeletonApp.rest.model.models.RemedyDataModel" />
 
         <import type="android.view.View"/>
     </data>
@@ -25,25 +25,74 @@
             android:layout_marginEnd="8dp"
             android:orientation="vertical"
             android:gravity="start">
-            <TextView
-                android:id="@+id/title"
-                style="@style/BaseTextView.OpenSansItalic"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_medium_16dp"
-                android:text="@{model.title}"
-                android:textSize="@dimen/small_text_12sp"
-                tools:text="@string/title"/>
-            <TextView
-                android:id="@+id/tv_body"
-                style="@style/BaseTextView.OpenSansBold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_tiny_4dp"
-                android:text="@{model.body}"
-                android:textColor="@color/colorBlue"
-                android:textSize="@dimen/small_text_12sp"
-                tools:text="@string/title" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/space_huge_64dp"
+                    android:layout_height="@dimen/space_huge_64dp"
+                    android:scaleType="fitCenter"
+                    android:padding="@dimen/space_small_8dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pills_drug_image"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <TextView
+                            android:id="@+id/time"
+                            style="@style/BaseTextView.OpenSansRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="start"
+                            tools:text="@string/app_name"
+                            android:textColor="@color/mine_shaft"
+                            android:layout_marginEnd="@dimen/space_tiny_5dp"
+                            android:layout_weight="0.5"
+                            android:paddingStart="@dimen/space_small_8dp"
+                            android:layout_marginTop="@dimen/space_small_8dp"
+                            android:text="@{model.dateCreated}"
+                            android:textSize="@dimen/small_text_12sp"/>
+                        <TextView
+                            android:id="@+id/medicine"
+                            style="@style/BaseTextView.OpenSansSemiBold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:paddingEnd="@dimen/space_medium_16dp"
+                            android:layout_weight="0.5"
+                            android:textColor="@color/colorGreen"
+                            android:layout_marginTop="@dimen/space_small_8dp"
+                            android:text="@string/scheduled"
+                            android:textSize="@dimen/small_text_12sp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/title"
+                        style="@style/BaseTextView.OpenSansRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:textColor="@color/mine_shaft"
+                        android:paddingStart="@dimen/space_small_8dp"
+                        android:paddingEnd="@dimen/space_medium_16dp"
+                        android:layout_marginTop="@dimen/space_small_8dp"
+                        android:text="@{model.name}"
+                        tools:text="@string/app_name"
+                        android:textSize="@dimen/small_text_12sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

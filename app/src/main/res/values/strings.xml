@@ -40,6 +40,7 @@
 	<string name="user_Id">User Id</string>
 
     <string name="loading">Loading…</string>
+    <string name="scheduled">Scheduled</string>
 
 
 </resources>

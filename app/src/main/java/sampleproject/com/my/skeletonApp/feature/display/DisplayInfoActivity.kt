@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_display.*
+import sampleproject.com.my.skeletonApp.rest.model.models.RemedyDataModel
 import javax.inject.Inject
 
 class DisplayInfoActivity : BaseActivity(), DataResultAdapter.Callbacks {
@@ -29,7 +30,6 @@ class DisplayInfoActivity : BaseActivity(), DataResultAdapter.Callbacks {
 
         val binding: ActivityDisplayBinding = DataBindingUtil.setContentView(this, R.layout.activity_display)
         binding.viewModel = viewModel
-        setRecyclerView()
         setupEvent()
     }
 
@@ -56,18 +56,21 @@ class DisplayInfoActivity : BaseActivity(), DataResultAdapter.Callbacks {
                 }else showLoadingDialog()
             }
         )
+        viewModel.resultDetails().observe(this,{
+            setRecyclerView(it)
+        })
     }
-    private fun setRecyclerView() {
-        mAdapter = DataResultAdapter(viewModel.dataResultInfo, this)
-        data_list.adapter = mAdapter
-        data_list.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+        private fun setRecyclerView(mutableList: List<RemedyDataModel>) {
+            mAdapter = DataResultAdapter(mutableList, this)
+            recyclerView.adapter = mAdapter
+            recyclerView.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
 
     }
-    override fun onItemClick(view: View, item: DataResultResponse) {
+    override fun onItemClick(view: View, item: RemedyDataModel) {
 
     }
 }

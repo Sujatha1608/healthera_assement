@@ -58,7 +58,7 @@ data class Medicine(
     val nhsPriceDate: String? = null,
 
     @Json( name ="gtin")
-    val gtin: List<String?>? = null,
+    val gtin: List<String>? = null,
 
     @Json( name ="start_date")
     val startDate: String? = null
@@ -116,7 +116,7 @@ data class RemedyData(
     val remedyId: String? = null,
 
     @Json( name ="schedule")
-    val schedule: List<Any?>? = null,
+    val schedule: List<ScheduleItem>? = null,
 
     @Json( name ="is_ongoing")
     val isOngoing: Boolean = false,

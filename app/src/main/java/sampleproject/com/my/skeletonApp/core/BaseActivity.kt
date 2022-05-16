@@ -21,10 +21,6 @@ open class BaseActivity: AppCompatActivity() {
 
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
-//        if (toolbar == null) {
-//            Timber.e { "Toolbar is null" }
-//        }
-//        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         setupListeners()
     }
@@ -52,49 +48,6 @@ open class BaseActivity: AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun startActivity(from: Context, to: Class<*>, parameters: HashMap<Router.Parameter, Any?> = hashMapOf(), clearHistory: Boolean = false, singleTask: Boolean = false, transition: Bundle) {
-        val intent = Intent(from, to)
-        if (singleTask) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        }
-        if (clearHistory) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        }
-        if (parameters.isNotEmpty()) {
-            intent.putExtras(parameters.bundle)
-        }
-        if (transition != Bundle.EMPTY) {
-            startActivity(intent, transition)
-        } else {
-            startActivity(intent)
-        }
-    }
-
-    fun startActivityForResult(from: Context, to: Class<*>, parameters: HashMap<Router.Parameter, Any?> = hashMapOf(), requestCode: Int, singleTask: Boolean = false) {
-        val intent = Intent(from, to)
-        if (singleTask) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        }
-        if (parameters.isNotEmpty()) {
-            intent.putExtras(parameters.bundle)
-        }
-        startActivityForResult(intent, requestCode)
-    }
-
-    fun startActivityForResult(from: Context, to: Class<*>, parameters: HashMap<Router.Parameter, Any?> = hashMapOf(), requestCode: Int, singleTask: Boolean = false, transition: Bundle) {
-        val intent = Intent(from, to)
-        if (singleTask) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        }
-        if (parameters.isNotEmpty()) {
-            intent.putExtras(parameters.bundle)
-        }
-        if (transition != Bundle.EMPTY) {
-            startActivityForResult(intent, requestCode, transition)
-        } else {
-            startActivityForResult(intent, requestCode)
-        }
-    }
 
     fun isLoadingDialogShown() =
         if (!isDestroyed && loadingDialog != null) loadingDialog!!.isShowing else false

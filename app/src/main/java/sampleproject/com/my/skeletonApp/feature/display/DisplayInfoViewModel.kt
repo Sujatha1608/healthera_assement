@@ -1,11 +1,11 @@
 package sampleproject.com.my.skeletonApp.feature.display
 
 import androidx.lifecycle.MutableLiveData
-import sampleproject.com.my.skeletonApp.AppPreference
 import androidx.lifecycle.ViewModel
 import com.github.ajalt.timberkt.Timber
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import sampleproject.com.my.skeletonApp.core.event.SingleLiveEvent
+import sampleproject.com.my.skeletonApp.rest.model.models.RemedyDataModel
 import sampleproject.com.my.skeletonApp.rest.model.usecase.AdherencesUseCase
 import sampleproject.com.my.skeletonApp.rest.model.usecase.RemediesUseCase
 import javax.inject.Inject
@@ -19,8 +19,9 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
     val errorEvent = MutableLiveData<String>()
     val loadingDialogEvent = SingleLiveEvent<Boolean>()
 
-    var dataResultInfo: MutableList<DataResultResponse> = mutableListOf()
-    val list = mutableListOf<DataResultResponse>()
+    var dataResultInfo = MutableLiveData<List<RemedyDataModel>>()
+    val list = mutableListOf<RemedyDataModel>()
+    lateinit var model: RemedyDataModel
 
     init {
         getAdherence()
@@ -30,6 +31,9 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
         fun updateRecyclerView(update: Boolean)
 
     }
+    fun resultDetails():MutableLiveData<List<RemedyDataModel>>{
+        return dataResultInfo
+    }
     private fun getAdherence() {
         loadingDialogEvent.postValue(true)
         adherencesUseCase.execute()
@@ -37,6 +41,7 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                 onSuccess = {
                     Timber.d { "api $it" }
                     loadingDialogEvent.postValue(false)
+
 
                 },
                 onError = { e ->
@@ -53,6 +58,14 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                 onSuccess = {
                     Timber.d { "api $it" }
                     loadingDialogEvent.postValue(false)
+                    list.clear()
+                    for (i in it.data!!) {
+                        model = RemedyDataModel( id = i.remedyId!!, name = i.medicineName!!)
+                        list.add(model)
+
+
+                    }
+                    resultDetails().value=list
 
                 },
                 onError = { e ->
@@ -62,4 +75,11 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
                 }
             )
     }
+    fun onLeftClick(){
+
+    }
+    fun onRightClick(){
+
+    }
+
 }
