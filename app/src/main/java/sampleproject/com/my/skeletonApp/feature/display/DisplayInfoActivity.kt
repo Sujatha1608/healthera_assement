@@ -46,19 +46,16 @@ class DisplayInfoActivity : BaseActivity(), DataResultAdapter.Callbacks {
                 mAdapter.notifyDataSetChanged()
             }
 
-            override fun onLeftClick() {
-               previousSelected()
-            }
-
-            override fun onRightClick() {
-                nextSelected()
-            }
-
-            override fun closeClick() {
-               finish()
-            }
         }
-
+        viewModel.closeEvent.observe(this){
+            finish()
+        }
+        viewModel.leftClickEvent.observe(this){
+            previousSelected()
+        }
+        viewModel.rightClickEvent.observe(this){
+            nextSelected()
+        }
         viewModel.errorEvent.observe(this) {
             if (it.isNotEmpty()) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
@@ -90,13 +87,6 @@ class DisplayInfoActivity : BaseActivity(), DataResultAdapter.Callbacks {
         )
         mAdapter = DataResultAdapter(ArrayList(), this)
         recyclerView.adapter = mAdapter
-
-      /*  binding.ivPreviousImage.setOnClickListener {
-            previousSelected()
-        }
-        binding.ivNextImage.setOnClickListener {
-            nextSelected()
-        }*/
     }
 
     private fun nextSelected() {

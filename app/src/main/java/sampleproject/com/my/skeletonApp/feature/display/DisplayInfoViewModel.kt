@@ -20,6 +20,9 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
     lateinit var callBack: ViewModelCallBack
     val errorEvent = MutableLiveData<String>()
     val loadingDialogEvent = SingleLiveEvent<Boolean>()
+    val closeEvent = SingleLiveEvent<Boolean>()
+    val leftClickEvent = SingleLiveEvent<Boolean>()
+    val rightClickEvent = SingleLiveEvent<Boolean>()
 
     var dataResultInfo = MutableLiveData<List<RemedyDataModel>>()
     var adherenceListLiveData = MutableLiveData<MutableSet<String?>>()
@@ -35,10 +38,6 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
 
     interface ViewModelCallBack {
         fun updateRecyclerView(update: Boolean)
-        fun onLeftClick()
-        fun onRightClick()
-        fun closeClick()
-
     }
 
     fun resultDetails(): MutableLiveData<List<RemedyDataModel>> {
@@ -123,13 +122,13 @@ class DisplayInfoViewModel @Inject constructor(private val adherencesUseCase: Ad
         }
     }
     fun onPreviousClick(){
-        callBack.onLeftClick()
+        leftClickEvent.postValue(true)
     }
     fun onNextClick(){
-        callBack.onRightClick()
+        rightClickEvent.postValue(true)
     }
     fun onCloseClick(){
-        callBack.closeClick()
+        closeEvent.postValue(true)
     }
 
 }
